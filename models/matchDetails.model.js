@@ -1,3 +1,5 @@
+const mongoose = require('mongoose');
+
 module.exports = mongoose => {
     const matchDetails = mongoose.model(
       "matchDetails",

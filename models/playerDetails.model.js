@@ -1,3 +1,6 @@
+const mongoose = require("mongoose");
+
+
 module.exports = mongoose => {
     const playerDetails = mongoose.model(
       "playerDetails",
