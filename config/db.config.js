@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+
 const db=require("../models")
 db.mongoose
   .connect("mongodb://localhost:27017/IPL", {
