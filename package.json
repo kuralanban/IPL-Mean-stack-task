@@ -1,16 +1,29 @@
 {
-  "name": "nodejs",
+  "name": "dream11",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Write a simple backend to accept team entries for a fantasy cricket app (similar to Dream11) and process the results based on match results. Use Node.js backend with express for API and MongoDB for database. Core packages are pre-installed with a dev database connection to MongoDB Atlas. You are free to add additional libraries for validation, etc.",
+  "main": "server.js",
   "scripts": {
+    "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kuralanban/IPL-Mean-stack-task.git"
+  },
+  "author": "kural",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kuralanban/IPL-Mean-stack-task/issues"
+  },
+  "homepage": "https://github.com/kuralanban/IPL-Mean-stack-task#readme",
   "dependencies": {
-    "@types/node": "^18.0.6",
-    "node-fetch": "^3.2.6"
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "joi": "^17.13.1",
+    "mongoose": "^8.3.4",
+    "moongoose": "^0.0.5"
   }
 }
