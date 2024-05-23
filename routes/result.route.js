@@ -6,5 +6,7 @@ module.exports = (app)=>{
     
     router.post("/process-result/:userId",resultController.processResult);
 
+    router.get("/team-result",resultController.viewTeamResult);
+
     app.use("/", router);
 }

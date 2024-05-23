@@ -28,6 +28,10 @@ module.exports = (mongoose) => {
       viceCaptain: {
         type: String,
       },
+      teamPoints:{
+        type:Number,
+        default: 0,
+      }
     },
     { timestamps: true }
   );

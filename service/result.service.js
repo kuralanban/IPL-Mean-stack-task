@@ -21,6 +21,8 @@ module.exports = {
         return map;
       }, {});
 
+      let totalTeamPoints = 0;
+
       const bulkOperations = team.players.map(teamPlayer => {
         const player = playerMap[teamPlayer.id];
         // console.log("players :",player)
@@ -33,7 +35,7 @@ module.exports = {
         } else if (team.viceCaptain === teamPlayer.id) {
           points *= 1.5; // 1.5 times points for the vice-captain
         }
-
+        totalTeamPoints += points;
         return {
           updateOne: {
             filter: { user: userID, "players.id": teamPlayer.id },
@@ -45,9 +47,10 @@ module.exports = {
       if (bulkOperations.length > 0) {
         await Team.bulkWrite(bulkOperations);
       }
-
-      console.log(`Points updated for all players in team ${team.teamName}`);
-
+      await Team.updateOne(
+        { user: userID },
+        { $set: { teamPoints: totalTeamPoints } }
+      );
       return {
         success: true,
         message: "Points calculated and updated successfully",
@@ -127,5 +130,61 @@ module.exports = {
     }
 
     return points;
+  },
+  viewTeamResultService: async () => {
+    try {
+      const teams = await Team.aggregate([
+        { $sort: { teamPoints: -1 } },
+        // Group all teams and find the maximum teamPoints
+        {
+          $group: {
+            _id: null,
+            teams: { $push: "$$ROOT" },
+            maxPoints: { $first: "$teamPoints" }
+          }
+        },
+        // Unwind the teams array to process each team individually
+        { $unwind: "$teams" },
+        // Add the isWinner field based on maxPoints
+        {
+          $addFields: {
+            "teams.isWinner": { $eq: ["$teams.teamPoints", "$maxPoints"] }
+          }
+        },
+        // Replace root to remove the intermediate fields
+        { $replaceRoot: { newRoot: "$teams" } },
+        
+        {
+          $project: {
+            _id: 1,
+            user: 1,
+            teamName: 1,
+            players: 1,
+            captain: 1,
+            viceCaptain: 1,
+            teamPoints: 1,
+            isWinner: 1
+          }
+        }
+      ]);
+
+      if (teams.length === 0) {
+        return {
+          success: false,
+          message: "No teams found",
+        };
+      }
+      return {
+        success: true,
+        message: "Teams retrieved and sorted by points successfully",
+        data: teams,
+      };
+    } catch (error) {
+      console.error("Error:", error);
+      return {
+        success: false,
+        error: "Internal Server Error",
+      };
+    }
   },
 };
