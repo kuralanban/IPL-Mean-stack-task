@@ -6,5 +6,5 @@ module.exports = (app)=>{
     
     router.post("/add-team",teamController.addNewTeam);
 
-    app.use("/team", router);
+    app.use("/", router);
 }

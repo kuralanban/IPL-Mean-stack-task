@@ -1,22 +1,21 @@
 const mongoose = require("mongoose");
 
-
 module.exports = mongoose => {
     const playerDetails = mongoose.model(
-      "playerDetails",
+      "userDetails",
       mongoose.Schema(
         {
-          Player: {
+          userName: {
             type: String
           },
-          Team:{
+          password:{
             type:String
           },
-          Role:{
+          team:{
             type:String
           },
         },
-        { collection: 'playerDetails' } 
+        { collection: 'userDetails' } 
       )
     );
     return playerDetails;
