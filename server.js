@@ -23,6 +23,7 @@ require('./config/db.config')
 // Routes
 
 const teamRoute=require('./routes/team.route')(app);
+const resultRoute=require('./routes/result.route')(app);
 
 app.listen(port,()=>{
   console.log(`Server running in ${port}`);
